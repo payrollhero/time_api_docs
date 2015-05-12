@@ -15,7 +15,7 @@ This API relies on references to objects in the
 [PayrollHero Core API Documentation](http://docs.payrollherocoreapi.apiary.io/).
 Please see that document for more details.
 
-# Group Time App
+# Group Time App - Authorized
 
 ## Clockings [/api/v2/clockings{?token}]
 
@@ -33,6 +33,7 @@ __Clocking Object Param__
  + `client_time` (number, required) ... Unix timestamp of when the employee performed this clocking
  + `latitude` (float, optional) ... Latitude where this clocking happened
  + `longitude` (float, optional) ... Longitude where this clocking happened
+ + `ip_address` (string, optional) ... IP address of the client
  + `worksite_id` (number, optional) ... the id of the worksite this clocking should be tagged with
  + `reason` (text, optional) ... a reason the employee entered as to why they were early/late etc
  + `photo` (file or url, optional) ... a multi part file attachment or a url to an image with the employee's selfie (this one should be clear of any props)
@@ -92,3 +93,73 @@ if a duplicate is detected. (see the two sample responses)
           "status": "created"
         }
 
+# Group Time App - Unauthorized
+
+## Unauthorized Clockings [/api/v2/unauthorized_clockings]
+
+__Clocking Kinds__
+
+ + `clock_in` ... the employee is clocking in
+ + `clock_out` ... the employee is clocking out
+ + `break_in` ... the employee is going on break
+ + `break_out` ... the employee is leaving break
+
+__Clocking Object Param__
+
+ + `employee_username` (string, required) ... The employee's username
+ + `kind` (enum, required) ... What kind of clocking is this? (see above)
+ + `client_time` (number, required) ... Unix timestamp of when the employee performed this clocking
+ + `latitude` (float, required) ... Latitude where this clocking happened
+ + `longitude` (float, required) ... Longitude where this clocking happened
+ + `ip_address` (string, optional) ... IP address of the client
+ + `photo` (file or url, required) ... a multi part file attachment or a url to an image with the employee's selfie (this one should be clear of any props)
+ + `reason` (text, optional) ... a reason the employee entered as to why they were early/late etc
+ + `propped_photo` (file or url, optional) ... a multi part file attachment or a url to an image with the employee's selfie including props, only include if using props
+
+### Create Unauthorized Clocking [POST]
+
+__Scope Required:__ `write_clockings`
+
+This endpoint will accept duplicated clockings, but it will return a status of `created` or `duplicate` depending
+if a duplicate is detected. (see the two sample responses)
+
++ Parameters
+  + clocking (object) ... The clocking data object, see above for details
+
++ Request (application/json)
+
+        {
+          "clocking": {
+            "employee_username": "jdoe123",
+            "kind": "clock_in",
+            "client_time": "1395106884",
+            "latitude": "-98.1234",
+            "longitude": "165.4321",
+            "ip_address": "174.7.251.60"
+          }
+        }
+
++ Response 200 (application/json)
+
+        {
+          "clocking": {
+            "id": 123
+          },
+          "status": "duplicate"
+        }
+
++ Response 200 (application/json)
+
+        {
+          "clocking": {
+            "id": 123
+          },
+          "status": "created"
+        }
+
++ Response 404 (application/json)
+
+        {
+          "message": "Employee with username: jdoe123 not found.",
+          "status": "error"
+        }
