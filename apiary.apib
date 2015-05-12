@@ -160,6 +160,6 @@ if a duplicate is detected. (see the two sample responses)
 + Response 404 (application/json)
 
         {
-          "message": "Employee with username: jdoe123 not found.",
-          "status": "error"
+             "error": "not_found",
+             "error_description": "Employee jdoe123 Not Found"
         }
