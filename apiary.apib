@@ -48,6 +48,15 @@ __Scheduling Info Params__
  + `scheduled_in_time` (unix_timestamp, optional) ... The timestamp of the start of the schedule this clocking relates to
  + `scheduled_out_time` (unix_timestamp, optional) ... The timestamp of the end of the schedule this clocking relates to
 
+__Metadata Params__
+
+ + `device_platform` (string, optional) ... device platform
+ + `app_name` (string, required) ... name of the app sending the clocking
+ + `version` (sting, required) ... version of the app sending the clocking
+ + `connection_type` (string, optional) ... type of connection used to do the request
+ + `attempt_number` (number, optional) ... the number of attempts the request has been retried
+
+
 __Logic around using Scheduling Info__
 
 If the shift relates to a schedule the in/out times should be specified. If it is an unscheduled shift they should be blank or omitted.
