@@ -41,21 +41,15 @@ __Clocking Object Param__
  + `reason` (text, optional) ... a reason the employee entered as to why they were early/late etc
  + `photo` (file or url, optional) ... a multi part file attachment or a url to an image with the employee's selfie (this one should be clear of any props)
  + `propped_photo` (file or url, optional) ... a multi part file attachment or a url to an image with the employee's selfie including props, only include if using props
- + `meta` (nested object, optional) ... meta information about the request
 
 __Scheduling Info Params__
 
  + `scheduled_in_time` (unix_timestamp, optional) ... The timestamp of the start of the schedule this clocking relates to
  + `scheduled_out_time` (unix_timestamp, optional) ... The timestamp of the end of the schedule this clocking relates to
 
-__Metadata Params__
+__Metadata Headers__
 
- + `device_platform` (string, optional) ... device platform
- + `app_name` (string, required) ... name of the app sending the clocking
- + `version` (sting, required) ... version of the app sending the clocking
- + `connection_type` (string, optional) ... type of connection used to do the request
- + `attempt_number` (number, optional) ... the number of attempts the request has been retried
-
+Refer to [Common Headers](http://docs.payrollherocoreapi.apiary.io/#reference/common-headers) for more information.
 
 __Logic around using Scheduling Info__
 
@@ -86,14 +80,6 @@ if a duplicate is detected. (see the two sample responses)
             "worksite_id": "100",
             "scheduled_in_time": "1395106884",
             "scheduled_out_time": "1395107884",
-            "meta": {
-                "device_platform": "Samsung GT-I9300",
-                "app_name": "TeamClockAndroid",
-                "version": "1.1.3",
-                "connection_type": "WIFI",
-                "attempt_number": 1
-            }
-        }
         }
 
 + Response 200 (application/json)
